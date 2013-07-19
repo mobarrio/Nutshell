@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+        <title>TimeSheet</title>
+		<style>
+			/* Style CSS */
+		</style>
+		<script>
+			/* Javascript */
+		</script> 
+  	</head>
+  	<body>
+		Hola Mundo!
+  	</body>
+</html>

@@ -1,0 +1,10 @@
+User-agent: *
+Disallow:
+Disallow: /backup/
+Disallow: /documentacion/
+Disallow: /img/
+Disallow: /include/
+Disallow: /js/
+Disallow: /sbin/
+Disallow: /styles/
+Disallow: /uploads/

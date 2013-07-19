@@ -1,0 +1,63 @@
+#msgbox 
+{
+    background-color: white;
+    border: 1px solid #3366CC;
+    height: 20em;
+    margin: 11% 25%;
+    position: relative;
+    top: 0;
+    width: auto;
+}
+
+#msgheader 
+{
+  background-color: Red;
+  border-bottom: 1px solid #3366CC;
+  border-top: 1px solid #3366CC;
+  color: white;
+  font-family: serif;
+  font-size: 2.5em;
+  font-weight: bold;
+  height: 1.3em;
+  margin-left: 0;
+  margin-top: 0.3em;
+  padding: 0;
+  position: static;
+  text-align: center;
+  width: auto;
+}
+
+#msgcenter 
+{
+  background-color: #E5ECF9;
+  border-bottom: 1px solid #3366CC;
+  border-top: 1px solid #3366CC;
+  height: 11em;
+  margin-left: 0;
+  margin-top: 1em;
+  position: static;
+  text-align: center;
+  width: auto;
+}
+
+#msg40X 
+{
+    font-family: Times New Roman;
+    font-size: 1.5em;
+    margin-top: 1em;
+    padding: 1em;
+    position: relative;
+}
+
+#msgerr 
+{
+    font-size: 14px;
+}
+
+#msgfooter 
+{
+  color: black;
+  font-size: 14px;
+  padding: 11px;
+  text-align: right;
+}	
