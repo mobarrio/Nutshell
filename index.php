@@ -1,5 +1,5 @@
 <?php 
-	error_reporting(-1);
+	error_reporting(0);
 	$time = time() - 60; // or filemtime($fn), etc
 	header('Last-Modified: '.gmdate('D, d M Y H:i:s', $time).' GMT');
 	require_once("include/config.php");
@@ -99,9 +99,18 @@
 						  </ul>
 						</li>
 						<li><a href="#" class='opcion4'><i class="icon-eur"></i> Opcion 4</a></li>
-						<li><a href="#" class='opcion5'><i class="icon-cogs"></i> Configuración</a></li>
+						<li><a href="#" class='opcion5'><i class="icon-cogs"></i> Opcion 5</a></li>
 	                </ul>
 	              </li>
+	              <? if($_SESSION['AccessLevel'] == 0): ?>
+	              <li class="active dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración <b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+						<li><a href="#" class='opcion1'><i class="icon-user"></i> Usuarios</a></li>
+						<li><a href="#" class='opcion2'><i class="icon-cogs"></i> Preferencias</a></li>
+	            	</ul>
+				  </li>
+	        	  <? endif; ?>
 				  <li><a href="#" class='logout'><i class="icon-lock"></i> Logout</a></li>
 	            </ul>
 	          </div><!--/.nav-collapse -->

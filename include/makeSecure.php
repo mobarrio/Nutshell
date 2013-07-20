@@ -18,5 +18,6 @@
 	$loginSys = new LoginSystem();
 	$loginSys->debug = 0;
 	if(!$loginSys->isLoggedIn()){ $loginSys->loginForm(); exit;}
+	$_SESSION['AccessLevel'] = $loginSys->AccessLevel;
 	
 	

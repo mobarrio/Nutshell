@@ -45,6 +45,7 @@ class LoginSystem
 	var $Version		 = "V1P";
 	var $redirect_page   = "";
 	var $debug           = 0;
+	var $AccessLevel	 = -1;
 	var $ldap_on         = true;
 	var $options         = array();	
 	var $prefix          = "login_"; // Prefijo de la cookie
@@ -122,13 +123,22 @@ class LoginSystem
 		//$xLogin = array('dashboard30'); /* Deshabilitar login para las paginas definidas */
 		//$info = pathinfo($_SERVER["SCRIPT_NAME"]);
 		//if(in_array($info['filename'], $xLogin)) { return true; }
-		
+
 		// Si no esta definido el uid de sesion muestra el loguin
 		if(!isset($_SESSION['userName'])) 
 		{  
 			$this->Debug("isLoggedIn(): _SESSION[userName] No Definido.");
 			return false;
-		} else { $this->Debug("isLoggedIn(): _SESSION[userName] Definido OK.");}
+		} else { 
+			$this->Debug("isLoggedIn(): _SESSION[userName] Definido OK.");
+			$db = ADONewConnection('mysql');
+			$db->Connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
+			$sql = "SELECT AccessLevel FROM TB_Usuarios where idUsuario = '".$_SESSION['userName']."';";
+			$fields = $db->GetRow($sql);  
+			$db->Close(); # opcional	
+			$this->AccessLevel = $fields['AccessLevel'];
+			$_SESSION['AccessLevel'] = $this->AccessLevel;
+		}
 
 		// Redirecciona despues del loggin para la pagina que se intentaba acceder.
 		$this->redirect_page = $_SERVER['REQUEST_URI'];
@@ -223,9 +233,8 @@ class LoginSystem
 				}
 				else // matching login ok
 				{
-					$this->Debug("doLogin(): Usuario OK define las variables de sesion [LoggedIn, userName y LDAP] y retorna FALSE");
-					$row = mysql_fetch_assoc($result);
 					session_regenerate_id(); // more secure to regenerate a new id.
+					$this->Debug("doLogin(): Usuario OK define las variables de sesion [LoggedIn, userName y LDAP] y retorna FALSE");
 					mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso OK via Local Login',LastAccess=NOW() WHERE idUsuario='".$this->username."';", $this->connection);
 
 					//set session vars up

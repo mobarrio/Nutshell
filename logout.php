@@ -10,7 +10,7 @@
 
 	Código Safe Creative: #1211060715189
 	*/
-	error_reporting(-1);
+	error_reporting(0);
 	if (session_id() == ''){ session_start(); }
 	require_once("include/LoginSystem.class.php");
 
