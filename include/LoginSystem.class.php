@@ -374,7 +374,8 @@ class LoginSystem
 	function loginForm($msg='<font color=green><b>Introduzca usuario y password</b></font>')
 	{
 		$this->Debug("loginForm(): Genera el Formulario de Login.");
-		if($_COOKIE['login_expiration'] == "true") $msg = "Sesion Expirada!";
+		
+		if(isset($_COOKIE[$this->prefix.'expiration']) && ($_COOKIE['login_expiration'] == "true")) $msg = "Sesion Expirada!";
 		if(isset($_POST['Submit']))
 		{
 			$this->Debug("loginForm(): Se realizo el Submit del formulario");
