@@ -17,10 +17,6 @@
     	<meta name="author" content="<?=$_SESSION['COPYRIGHT']?>">
 		<!-- Estilos personalizados -->
 
-		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
-
 		<!-- jQuery y jQuery-UI -->
 		<script type='text/javascript'             src='js/jquery-1.9.1.min.js'></script>
 		<script type='text/javascript'             src='js/jquery-ui-1.10.2.custom.min.js'></script>
@@ -28,7 +24,10 @@
 		<link   type='text/css' rel='stylesheet'  href='styles/themes/ui-smoothness/jquery-ui-1.10.2.custom.min.css' />
 		<link   type='text/css' rel='stylesheet'  href='styles/themes/jquery.ui.selectmenu.css' />
 
-		<script type="text/javascript" 			   src="js/bootstrap.min.js"></script> 
+		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap-combined.no-icons.min.css">
+		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome.css">
+		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome-ie7.css">
+		<script type="text/javascript" 			   src="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap.min.js"></script> 
 
 		<!-- Dropdown Menu HTML5 -->
 		<link href="js/html5/css/dropdown/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
@@ -49,7 +48,8 @@
 		<script type="text/javascript" 			   src="js/plugins/tinymce/tinymce.min.js"></script> 
 		<script type="text/javascript" 			   src="js/plugins/tinymce/jquery.tinymce.min.js"></script> 
 		<script type="text/javascript" 			   src="js/plugins/mobarrio/timer/jquery.stopwatch.js"></script> 
-	
+		<link  rel="stylesheet" type="text/css"   href="errors/error.css"/>
+
 		<style>
 			@media (min-width: 980px) {
 				body{ padding-top: 60px; }
@@ -124,7 +124,7 @@
 
 	      <div class="row-fluid">
 	        <div id='contentenido' class="span12">
-	        		<div class='welcome'>Bienvenido al Sistema <span style='color:red;'><?=$_SESSION['Descripcion']. " (".$_SESSION['userName'].")"?></span></div>
+	        		<div class='welcome'><?=$_SESSION['APPWELCOMEMSG']?> <span style='color:red;'><?=$_SESSION['Descripcion']. " (".$_SESSION['userName'].")"?></span></div>
 	        </div>
 	      </div>
 

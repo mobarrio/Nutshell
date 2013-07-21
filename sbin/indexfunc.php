@@ -39,43 +39,53 @@ switch ($accion)
 
 function admusr(){
 	global $connMySQL;
-	$records = $connMySQL->GetAll("SELECT * FROM ts_clientes;");
+	$records = $connMySQL->GetAll("SELECT * FROM tb_usuarios;");
 	?>
 	<form id='frmclientes'>
 		<table class="table table-bordered table-striped">
-			<tr id='tr-<?=$record['id_cliente']?>'>
-				<th class='span1' style='text-align:center;'>#</th>
-				<th class='span8'>Descripcion</th>
-				<th class='span1' style='text-align:center;'>Info</th>
+			<tr>
+				<th class='span2' style='text-align:center;'>UserID</th>
+				<th class='span3'>Descripcion</th>
+				<th class='span3' style='text-align:center;'>Mail</th>
+				<th class='span1' style='text-align:center;'>Estado</th>
+				<th class='span1' style='text-align:center;'>Level</th>
 				<th class='span2'>Acciones</th>
 			</tr>	  
 			<? foreach($records as $record): ?>
-			<tr>
-				<td style='text-align:center;'><?=$record['id_cliente']?></td>
+			<tr id='tr-<?=$record['idUsuario']?>'>
+				<td style='text-align:center;'><?=$record['idUsuario']?></td>
 				<td>
-					<input type='text' id="nombre<?=$record['id_cliente']?>" name='nombre<?=$record['id_cliente']?>' class='span12 nombre' value="<?=$record['Descripcion']?>" placeholder='Nombre del cliente' data-idcliente="<?=$record['id_cliente']?>" minlength="4" required />
-					<div id="info<?=$record['id_cliente']?>" name="info<?=$record['id_cliente']?>" style='display:none;'>
-						<textarea class="moxiecut span12" style='height: 280px;' id="contenido<?=$record['id_cliente']?>" name="contenido<?=$record['id_cliente']?>" data-idcliente="<?=$record['id_cliente']?>"><?=$record['Contacto']?></textarea>
-					</div>
+					<input type='text' id="nombre<?=$record['idUsuario']?>" name='nombre<?=$record['idUsuario']?>' class='span12 nombre' value="<?=$record['Descripcion']?>" placeholder='UserID' data-idusuario="<?=$record['idUsuario']?>" minlength="4" required />
 				</td>
-				<td style='text-align:center;'><i class='icon-file-text-alt icon-2x info' style='cursor:pointer;' data-id='<?=$record['id_cliente']?>'></i></td>
 				<td style='text-align:center;'>
-					<a class='btn delete' href='#' data-idcliente='<?=$record['id_cliente']?>'><i class='icon-fixed-width icon-trash'></i> Eliminar</a>
+					<input type='text' id="mail<?=$record['idUsuario']?>" name='mail<?=$record['idUsuario']?>' class='span12 mail' value="<?=$record['Mail']?>" placeholder='Mail Address' data-idusuario="<?=$record['idUsuario']?>" minlength="4" required />
+				</td>
+				<td style='text-align:center;'>
+					ON/OFF
+				</td>
+				<td style='text-align:center;'>
+					<select>
+						<option value='0'>Administrador</option>
+						<option value='1' Selected>Nominal</option>
+					</select>
+				</td>
+				<td style='text-align:center;'>
+					<a class='btn delete' href='#' data-idusuario='<?=$record['idUsuario']?>'><i class='icon-fixed-width icon-trash'></i> Eliminar</a>
 				</td>
 			</tr>	  
 			<? endforeach; ?>
 			<tr>
-				<td colspan='3'>
+				<td colspan='5'>
 				</td>
 				<td style='text-align:center;' class='nueva'>
-					<a class="btn" href="#"><i class='icon-plus'></i>&nbsp;&nbsp;Nuevo Cliente</a>
+					<a class="btn" href="#"><i class='icon-plus'></i>&nbsp;&nbsp;Nuevo Usuario</a>
 				</td>
 			</tr>	  
 		</table>
 	</form>
 	<script>
 		function nuevoCliente(){
-			var id_cliente = "";
+			var idUsuario = "";
 
 			$.ajax({ 
 				url: 'sbin/clientesfunc.php',
@@ -83,9 +93,9 @@ function admusr(){
 				async: false,
 				dataType: 'json',
 				data: { 'accion' : 'nuevoCliente' },
-				success: function(data) { id_cliente = data.id_cliente }
+				success: function(data) { idUsuario = data.idUsuario }
 			});
-			return([id_cliente]);
+			return([idUsuario]);
 		}
 
 		function addTinyMCE(id){
@@ -118,19 +128,19 @@ function admusr(){
 				autosave_ask_before_unload: false,
 				save_enablewhendirty: true,
     			save_onsavecallback: function(ed){
-    				var id_cliente = $("#"+$(this).attr("id")).data("idcliente");
+    				var idUsuario = $("#"+$(this).attr("id")).data("idusuario");
 
 					// tinyMCE.triggerSave();
     				tinyMCE.triggerSave();
 
     				if(!$("#frmclientes").valid()) return false;
-    				var nombre = $('#nombre'+id_cliente).val();
+    				var nombre = $('#nombre'+idUsuario).val();
 					$.ajax({ 
 						url: 'sbin/clientesfunc.php', 
 						type: 'POST', 
 						data: { 
 							'accion' : 'add_update_cliente',
-							'id_cliente' : id_cliente,
+							'idUsuario' : idUsuario,
 							'nombre' : nombre,
 							'contenido' : ed.getContent()
 						},
@@ -155,14 +165,14 @@ function admusr(){
 				event.preventDefault;
 				$this = $(this);
 				if(!$("#frmclientes").valid()) return false;
-				var id_cliente = $(this).data('idcliente');
+				var idUsuario = $(this).data('idusuario');
 				var nombre = $(this).val();
 				$.ajax({ 
 					url: 'sbin/clientesfunc.php', 
 					type: 'POST', 
 					data: { 
 						'accion' : 'add_update_cliente',
-						'id_cliente' : id_cliente,
+						'idUsuario' : idUsuario,
 						'nombre' : nombre
 					},
 					success: function(resp) { jAlert("Los datos se guardaron correctamente.","ATENCION", null, 1000); }
@@ -172,7 +182,7 @@ function admusr(){
 			$('#frmclientes').on('click', '.delete', function(event) {
 				event.preventDefault;
 				$this = $(this);
-				var id_cliente = $this.data('idcliente');
+				var idUsuario = $this.data('idusuario');
 				jConfirm("Se eliminara permanentemente el cliente.\n\nConfirma la operacion?","ATENCION", 	function (ans) { 
 					if (ans) 
 					{					
@@ -183,11 +193,11 @@ function admusr(){
 							dataType: 'json',
 							data: { 
 								'accion' : 'delete_cliente',
-								'id_cliente' : id_cliente
+								'idUsuario' : idUsuario
 							},
 							success: function(data) { 
 								if(data.status === 'success'){
-									$("#tr-"+data.id_cliente).remove();
+									$("#tr-"+data.idUsuario).remove();
 									jAlert(data.msg,"ATENCION", null, 1000);
 								}else{
 									jAlert(data.msg,"ERROR", null);
@@ -203,23 +213,23 @@ function admusr(){
 				event.preventDefault();
 				$this = $(this);
 				var retVal     = nuevoCliente();
-				var id_cliente =  retVal[0];
+				var idUsuario =  retVal[0];
 				//var clone = $('#frmclientes tr:last').prev();
 
-				$(  "<tr id='tr-"+id_cliente+"'>"+
-					"   <td style='text-align:center;'>"+id_cliente+"</td>"+
+				$(  "<tr id='tr-"+idUsuario+"'>"+
+					"   <td style='text-align:center;'>"+idUsuario+"</td>"+
 					"   <td>"+
-					"   	<input type='text' id='nombre"+id_cliente+"' name='nombre"+id_cliente+"' class='span12 nombre' value='' placeholder='Nombre del cliente' data-idcliente='"+id_cliente+"'   minlength='4' required />"+
-					"   	<div id='info"+id_cliente+"' name='info"+id_cliente+"' style='display:none;'>"+
-					"   		<textarea class='moxiecut span12' style='height: 280px;' id='contenido"+id_cliente+"' name='contenido"+id_cliente+"' data-idcliente='"+id_cliente+"'></textarea>"+
+					"   	<input type='text' id='nombre"+idUsuario+"' name='nombre"+idUsuario+"' class='span12 nombre' value='' placeholder='Nombre del cliente' data-idusuario='"+idUsuario+"'   minlength='4' required />"+
+					"   	<div id='info"+idUsuario+"' name='info"+idUsuario+"' style='display:none;'>"+
+					"   		<textarea class='moxiecut span12' style='height: 280px;' id='contenido"+idUsuario+"' name='contenido"+idUsuario+"' data-idusuario='"+idUsuario+"'></textarea>"+
 					"   	</div>"+
 					"   </td>"+
-					"   <td style='text-align:center;'><i class='icon-file-text-alt icon-2x info' style='cursor:pointer;' data-id='"+id_cliente+"'></i></td>"+
+					"   <td style='text-align:center;'><i class='icon-file-text-alt icon-2x info' style='cursor:pointer;' data-id='"+idUsuario+"'></i></td>"+
 					"   <td style='text-align:center;'>"+
-					"   	<a class='btn delete' href='#' data-idcliente='"+id_cliente+"'><i class='icon-fixed-width icon-trash'></i> Eliminar</a>"+
+					"   	<a class='btn delete' href='#' data-idusuario='"+idUsuario+"'><i class='icon-fixed-width icon-trash'></i> Eliminar</a>"+
 					"   </td>"+
 					"</tr>").insertBefore('#frmclientes tr:last');
-				 addTinyMCE('contenido'+id_cliente);
+				 addTinyMCE('contenido'+idUsuario);
 			});
 
 
@@ -242,7 +252,7 @@ function cierre(){
 }
 
 function add_update_cliente(){
-	$id_cliente  = isset($_REQUEST['id_cliente']) ? mysql_real_escape_string($_REQUEST['id_cliente']) : '';
+	$idUsuario  = isset($_REQUEST['idUsuario']) ? mysql_real_escape_string($_REQUEST['idUsuario']) : '';
 	$nombre      = isset($_REQUEST['nombre'])     ? mysql_real_escape_string($_REQUEST['nombre'])     : '';
 	$contenido   = isset($_REQUEST['contenido'])  ? mysql_real_escape_string($_REQUEST['contenido'])  : '';
 
@@ -252,10 +262,10 @@ function add_update_cliente(){
 	$field2 = '';
 	$value2 = '';
 	$ondup2 = '';
-	if(!empty($id_cliente)) { $field1='id_cliente,'; $value1 = "'$id_cliente', ";}
+	if(!empty($idUsuario)) { $field1='idUsuario,'; $value1 = "'$idUsuario', ";}
 	if(!empty($contenido))  { $field2=', Contacto';  $value2 = ", '$contenido'"; $ondup2 = ", Contacto='$contenido'";}
 	//$GLOBALS['connMySQL']->debug = true;
-	$GLOBALS['connMySQL']->Execute("INSERT INTO ts_clientes($field1 Descripcion $field2) VALUES ($value1 '$nombre' $value2) ON DUPLICATE KEY UPDATE id_cliente='$id_cliente', Descripcion='$nombre' $ondup2;");
+	$GLOBALS['connMySQL']->Execute("INSERT INTO ts_clientes($field1 Descripcion $field2) VALUES ($value1 '$nombre' $value2) ON DUPLICATE KEY UPDATE idUsuario='$idUsuario', Descripcion='$nombre' $ondup2;");
 	echo "Los datos se actualizaron correctamente";
 }
 
@@ -263,24 +273,24 @@ function nuevoCliente(){
 	global $connMySQL;
 
 	$connMySQL->Execute("INSERT INTO ts_clientes (Descripcion, Contacto) VALUES ('', '');");
-	$id_cliente = $connMySQL->Insert_ID();
+	$idUsuario = $connMySQL->Insert_ID();
 	
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 	header('Content-type: application/json; charset=UTF-8');
-	echo '{ "id_cliente": "'.$id_cliente.'" }';	
+	echo '{ "idUsuario": "'.$idUsuario.'" }';	
 }
 
 
 function delete_cliente(){
 	global $connMySQL;
 
-	$id_cliente  = isset($_REQUEST['id_cliente']) ? mysql_real_escape_string($_REQUEST['id_cliente']) : '';
-	if(empty($id_cliente)) {
-		$rJson = '{ "status" : "error", "msg": "Cliente no definido", "id_cliente" : "'.$id_cliente.'" }';
+	$idUsuario  = isset($_REQUEST['idUsuario']) ? mysql_real_escape_string($_REQUEST['idUsuario']) : '';
+	if(empty($idUsuario)) {
+		$rJson = '{ "status" : "error", "msg": "Cliente no definido", "idUsuario" : "'.$idUsuario.'" }';
 	}else{
-		$connMySQL->Execute("DELETE FROM ts_clientes WHERE id_cliente='$id_cliente';");
-		$rJson = '{ "status" : "success", "msg": "Cliente eliminado correctamente", "id_cliente" : "'.$id_cliente.'" }';
+		$connMySQL->Execute("DELETE FROM ts_clientes WHERE idUsuario='$idUsuario';");
+		$rJson = '{ "status" : "success", "msg": "Cliente eliminado correctamente", "idUsuario" : "'.$idUsuario.'" }';
 	}
 	
 	header('Cache-Control: no-cache, must-revalidate');
