@@ -9,8 +9,10 @@ define('DB_PASS',     'nutshell');                            // DB MySQL Passwo
 define('DB_DATABASE', 'nutshell');                            // DB MySQL Name
 
 // Recupera configuraciones dinamicas utilizando la conexion basica a MySQL de PHP
+
+/* Solventar error  Undefined index: SESSIONACTIVE in */
+$_SESSION['SESSIONACTIVE'] = isset($_SESSION['SESSIONACTIVE']) ? $_SESSION['SESSIONACTIVE'] : 0;
 if ($_SESSION['SESSIONACTIVE'] == 0){
-	echo "Carga variables de entorno y sesion!<br>";
 	$con=mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
 	if (!$con) { echo "Failed to connect to MySQL: " . mysqli_connect_error(); exit; }
 	$result = mysqli_query($con,"SELECT REPLACE(REPLACE(mascara, '_KEY_', clave),'_VAL_',valor) AS mascara FROM tb_configuracion WHERE visible=1 ORDER BY orden;");
