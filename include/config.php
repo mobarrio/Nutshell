@@ -23,6 +23,6 @@ $PATH_FULL    = $_SERVER["DOCUMENT_ROOT"] . $_SESSION['APP_DOCUMENT_ROOT'];     
 $USREGISTRADO = ((isset($_SESSION['userName']) && $_SESSION['userName'])?$_SESSION['userName']:'Unknown'); // LDAP/LOCAL AUTH
 
 // Seccion ACCESO
-require_once("adodb5/adodb.inc.php");                                        // Manejo de Base de Datos
-require_once("LoginSystem.class.php");
-require_once("makeSecure.php");                                              // Control de Acceso al sistema
+require_once(dirname(__FILE__) . "/adodb5/adodb.inc.php");                                        // Manejo de Base de Datos
+require_once(dirname(__FILE__) . "/LoginSystem.class.php");
+require_once(dirname(__FILE__) . "/makeSecure.php");                                              // Control de Acceso al sistema

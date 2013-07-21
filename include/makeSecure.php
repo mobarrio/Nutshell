@@ -10,8 +10,8 @@
 
 	Código Safe Creative: #1211060715189
 	*/
-	require_once("include/config.php");
-	require_once("include/LoginSystem.class.php");
+	require_once(dirname(__FILE__) . "/config.php");
+//	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "LoginSystem.class.php");
 	
 	isLocalAccess($_SESSION['DOMACCESS']);
 

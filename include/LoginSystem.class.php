@@ -11,8 +11,8 @@ Para ver una copia de esta licencia, visita http://creativecommons.org/licenses/
 Código Safe Creative: #1211060715189
 */
 
-require_once("include/config.php");
-require_once("adLDAP.php");               // Conexion al LDAP
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php");
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "adLDAP.php");               // Conexion al LDAP
 
 function isLocalAccess($doms)
 {
@@ -133,11 +133,12 @@ class LoginSystem
 			$this->Debug("isLoggedIn(): _SESSION[userName] Definido OK.");
 			$db = ADONewConnection('mysql');
 			$db->Connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
-			$sql = "SELECT AccessLevel FROM TB_Usuarios where idUsuario = '".$_SESSION['userName']."';";
+			$sql = "SELECT * FROM TB_Usuarios where idUsuario = '".$_SESSION['userName']."';";
 			$fields = $db->GetRow($sql);  
 			$db->Close(); # opcional	
 			$this->AccessLevel = $fields['AccessLevel'];
 			$_SESSION['AccessLevel'] = $this->AccessLevel;
+			$_SESSION['Descripcion'] = $fields['Descripcion'];
 		}
 
 		// Redirecciona despues del loggin para la pagina que se intentaba acceder.

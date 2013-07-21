@@ -12,7 +12,7 @@
 	*/
 	error_reporting(0);
 	if (session_id() == ''){ session_start(); }
-	require_once("include/LoginSystem.class.php");
+	require_once(dirname(__FILE__) . "/include/config.php");
 
 	$go = $_SESSION['PATH_URL'] . "/index.php";
 	$loginSys = new LoginSystem();

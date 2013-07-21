@@ -2,7 +2,8 @@
 	error_reporting(0);
 	$time = time() - 60; // or filemtime($fn), etc
 	header('Last-Modified: '.gmdate('D, d M Y H:i:s', $time).' GMT');
-	require_once("include/config.php");
+	require_once(dirname(__FILE__) .  "/include/LoginSystem.class.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -71,6 +72,7 @@
 				#bottom div { top: 10px; position: relative; }
 				.loading    { width: 480px; margin: 0 auto 0 auto; float: left; text-align: center; }
 			}
+			.welcome { text-align: left;margin-top: 2%;font-weight: 700;}
 
 		</style>
 	</head>
@@ -89,25 +91,25 @@
 	              <li class="active dropdown">
 	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
 	                <ul class="dropdown-menu">
-						<li><a href="#" class='opcion1'><i class="icon-user"></i> Opcion 1</a></li>
-						<li><a href="#" class='opcion2'><i class="icon-tasks"></i> Opcion 2</a></li>
+						<li><a href="#" class='opcion' data-do=''><i class="icon-user"></i> Opcion 1</a></li>
+						<li><a href="#" class='opcion' data-do=''><i class="icon-tasks"></i> Opcion 2</a></li>
 						<li class="dropdown-submenu">
 						  <a href="#"><i class="icon-list-ul"></i> Opcion 3</a>
 						  <ul class="dropdown-menu">
-						    <li><a href="#" class='opcion31' data-tipo='Activas'>Opcion 3.1</a></li>
-						    <li><a href="#" class='opcion32' data-tipo='Archivadas'>Opcion 3.2</a></li>
+						    <li><a href="#" class='opcion' data-do='Activas'>Opcion 3.1</a></li>
+						    <li><a href="#" class='opcion' data-do='Archivadas'>Opcion 3.2</a></li>
 						  </ul>
 						</li>
-						<li><a href="#" class='opcion4'><i class="icon-eur"></i> Opcion 4</a></li>
-						<li><a href="#" class='opcion5'><i class="icon-cogs"></i> Opcion 5</a></li>
+						<li><a href="#" class='opcion' data-do=''><i class="icon-eur"></i> Opcion 4</a></li>
+						<li><a href="#" class='opcion' data-do=''><i class="icon-cogs"></i> Opcion 5</a></li>
 	                </ul>
 	              </li>
 	              <? if($_SESSION['AccessLevel'] == 0): ?>
 	              <li class="active dropdown">
 	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración <b class="caret"></b></a>
 	                <ul class="dropdown-menu">
-						<li><a href="#" class='opcion1'><i class="icon-user"></i> Usuarios</a></li>
-						<li><a href="#" class='opcion2'><i class="icon-cogs"></i> Preferencias</a></li>
+						<li><a href="#" class='opcion' data-do='admusr'><i class="icon-user"></i> Usuarios</a></li>
+						<li><a href="#" class='opcion' data-do='pref'><i class="icon-cogs"></i> Preferencias</a></li>
 	            	</ul>
 				  </li>
 	        	  <? endif; ?>
@@ -122,7 +124,7 @@
 
 	      <div class="row-fluid">
 	        <div id='contentenido' class="span12">
-	        		<p>Pagina principal</p>
+	        		<div class='welcome'>Bienvenido al Sistema <span style='color:red;'><?=$_SESSION['Descripcion']. " (".$_SESSION['userName'].")"?></span></div>
 	        </div>
 	      </div>
 
@@ -135,6 +137,16 @@
 </html>
 <script> 
 	var stimeout = <?=$_SESSION["APPSESTIMEOUT"]?>;
+
+	loadOpcion = function(accion){
+		$.ajax({ 
+			url: 'sbin/indexfunc.php',
+			type: 'POST', 
+			data: { 'accion' : accion },
+			beforeSend: function ( data ) { $("#contentenido").html("<div class='loading' style='margin-top:40%;'><img src='img/preloaders/cargando3.gif' /> Cargando...</div>"); },
+			success: function(resp) { $("#contentenido").hide().html(resp).fadeIn(250); }
+		});
+	}
 	
 	$(document).ready(function() { 
 		/* Definimos el TimeOut de la pagina */
@@ -142,10 +154,10 @@
 		$.idleTimer(1000*stimeout);		
 
 		/* Cargamos el contenido de Menu, cuerpo principal y pie de pagina */
-		$('.opcion1').on('click',function(event){
+		$('.opcion').on('click',function(event){
 			$this = $(this);
 			event.preventDefault();
-			// loadOpcion($this.data('tipo'));
+			loadOpcion($this.data('do'));
 		});
 
 		$('.logout').on('click',function(event){
