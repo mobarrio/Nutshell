@@ -34,13 +34,34 @@ switch ($accion)
 	case "add_update_usuario":			add_update_usuario();				break;
 	case "delete_usuario":				delete_usuario();					break;	
 	case "nuevoUsuario":				nuevoUsuario();						break;	
-	case "actualizarUsuario":			actualizarUsuario();				break;	
+	case "actualizarUsuario":			actualizarUsuario();				break;
+	case "actualizaParametro":			actualizaParametro();				break;
 	default:																break;
 	return(-1);
 } 
 
+function actualizaParametro(){
+	global $connMySQL;
+	$clave   = isset($_REQUEST['clave']) ? mysql_real_escape_string($_REQUEST['clave']) : '';
+	$valor   = isset($_REQUEST['valor']) ? mysql_real_escape_string($_REQUEST['valor']) : '';
+
+	if(empty($clave)) {
+		$rJson = '{ "status" : "error", "msg": "Parametro no definido", "clave" : "'.$clave.'" }';
+	}else{
+		$connMySQL->Execute("UPDATE tb_configuracion SET valor='$valor' WHERE clave='$clave';");
+		$rJson = '{ "status" : "success", "msg": "Parametro actualizado correctamente", "clave" : "'.$clave.'", "valor" : "'.$valor.'" }';
+	}
+	
+	header('Cache-Control: no-cache, must-revalidate');
+	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+	header('Content-type: application/json; charset=UTF-8');
+	echo $rJson;	
+}
+
 function pref(){
 	global $connMySQL;
+
+	$seccion = "";
 	$datos = $connMySQL->GetAll("SELECT * FROM tb_configuracion WHERE parametrizable=1 ORDER BY orden;");
 	?>
 	<form id='frmparametros'>
@@ -51,6 +72,12 @@ function pref(){
 			<hr class='span6' style='margin-top: 0px;margin-bottom: 0px;'>
 		</div>
 		<? foreach($datos as $row): ?>
+		<? if($row['seccion'] != $seccion): ?>
+			<div class="row-fluid" style='background-color: #E2E2E2;margin-bottom: 5px;<?=(!empty($seccion) ? 'margin-top: 2em;' : '')?>'>
+				<h4><?=$row['seccion']?></h4>
+			</div>
+			<? $seccion = $row['seccion']; ?>
+		<? endif; ?>
 		<div class="row-fluid">
 		  <div class="span2"><?=$row["desc"]?></div>
 		  <div class="span4"><input type='text' class='span12 change' id='<?=$row["clave"]?>' name='<?=$row["clave"]?>' value='<?=$row["valor"]?>' /></div>
@@ -65,7 +92,19 @@ function pref(){
 				$this = $(this);
 				var clave = $this.attr('id');
 				var valor = $this.val()
-				console.log("Clave : ["+clave+"] Valor : ["+valor+"]");
+				$.ajax({ 
+					url: 'sbin/configuracionfunc.php',
+					type: 'POST',
+					data: { accion : 'actualizaParametro', clave: clave, valor: valor },
+					success: function(data) { 
+						if(data.status === 'success'){
+							$("#tr-"+data.idUsuario).remove();
+							jAlert(data.msg,"ATENCION", null, 1000);
+						}else{
+							jAlert(data.msg,"ERROR", null);
+						}
+					}
+				});
 			});
 
 		});
@@ -150,7 +189,6 @@ function admusr(){
 									}else{
 										jAlert(data.msg,"ERROR", null);
 									}
-									
 								}
 							});
 						}
