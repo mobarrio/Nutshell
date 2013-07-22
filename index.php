@@ -26,7 +26,7 @@
 
 		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap-combined.no-icons.min.css">
 		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome.css">
-		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome-ie7.css">
+		<!-- link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome-ie7.css" -->
 		<script type="text/javascript" 			   src="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap.min.js"></script> 
 
 		<!-- Dropdown Menu HTML5 -->
@@ -124,7 +124,7 @@
 
 	      <div class="row-fluid">
 	        <div id='contentenido' class="span12">
-	        		<div class='welcome'><?=$_SESSION['APPWELCOMEMSG']?> <span style='color:red;'><?=$_SESSION['Descripcion']. " (".$_SESSION['userName'].")"?></span></div>
+	        		<div class='welcome'><?=$_SESSION['APPWELCOMEMSG']?> <span style='color:red;'><?=$_SESSION['Descripcion']?></span></div>
 	        </div>
 	      </div>
 
@@ -140,11 +140,11 @@
 
 	loadOpcion = function(accion){
 		$.ajax({ 
-			url: 'sbin/indexfunc.php',
+			url: 'sbin/configuracionfunc.php',
 			type: 'POST', 
 			data: { 'accion' : accion },
 			beforeSend: function ( data ) { $("#contentenido").html("<div class='loading' style='margin-top:40%;'><img src='img/preloaders/cargando3.gif' /> Cargando...</div>"); },
-			success: function(resp) { $("#contentenido").hide().html(resp).fadeIn(250); }
+			success: function(resp)       { $("#contentenido").hide().html(resp).fadeIn(250); }
 		});
 	}
 	

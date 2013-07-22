@@ -108,7 +108,7 @@ class LoginSystem
 	{                   
 		$db = ADONewConnection('mysql');
 		$db->Connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
-		$sql = "SELECT idMenuTipo as rol FROM TB_Usuarios where idUsuario = '".$_SESSION['userName']."';";
+		$sql = "SELECT idMenuTipo as rol FROM TB_Usuarios where Logname = '".$_SESSION['userName']."';";
 		$fields = $db->GetAll($sql);  
 		$db->Close(); # opcional	
 		$ret = $fields[0]['rol'];
@@ -133,7 +133,7 @@ class LoginSystem
 			$this->Debug("isLoggedIn(): _SESSION[userName] Definido OK.");
 			$db = ADONewConnection('mysql');
 			$db->Connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
-			$sql = "SELECT * FROM TB_Usuarios where idUsuario = '".$_SESSION['userName']."';";
+			$sql = "SELECT * FROM TB_Usuarios where Logname = '".$_SESSION['userName']."';";
 			$fields = $db->GetRow($sql);  
 			$db->Close(); # opcional	
 			$this->AccessLevel = $fields['AccessLevel'];
@@ -196,25 +196,25 @@ class LoginSystem
 				$_SESSION['userName'] = $this->username;
 				$_SESSION['LDAP']     = $this->ldap_on;
 
-				mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso OK via LDAP',LastAccess=NOW() WHERE idUsuario='".$this->username."';", $this->connection);
+				mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso OK via LDAP',LastAccess=NOW() WHERE Logname='".$this->username."';", $this->connection);
 
-				$sql = "SELECT * FROM TB_Usuarios WHERE idUsuario = '$usr' and Passwd = '$psw' and active = 1;";
+				$sql = "SELECT * FROM TB_Usuarios WHERE Logname = '$usr' and Passwd = '$psw' and active = 1;";
 				$result = mysql_query($sql, $this->connection);
 				if(mysql_affected_rows($this->connection) == 0)
 				{
-					$sql = "INSERT INTO TB_Usuarios (idUsuario,Passwd,Descripcion,Mail,active) VALUES ('$usr','$psw','$Descripcion','$Mail',0);";
+					$sql = "INSERT INTO TB_Usuarios (Logname,Passwd,Descripcion,Mail,active) VALUES ('$usr','$psw','$Descripcion','$Mail',0);";
 					mysql_query($sql, $this->connection);
 				}
 				else // Si existe actualiza la psw local la cual se utilizara si se deshabilita el LDAP
 				{
-					$sql = "UPDATE TB_Usuarios SET Passwd='$psw' Where idUsuario='$usr';";
+					$sql = "UPDATE TB_Usuarios SET Passwd='$psw' Where Logname='$usr';";
 					$result = mysql_query($sql, $this->connection);				
 				}
 			}
 			else // Si falla la autenticacion por LDAP busca Autenticacion LOCAL
 			{ 
 				$this->Debug("doLogin(): Usuario inexistente retorna FALSE");
-				mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso Denegado via LDAP',LastAccess=NOW() WHERE idUsuario='".$this->username."';", $this->connection);
+				mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso Denegado via LDAP',LastAccess=NOW() WHERE Logname='".$this->username."';", $this->connection);
 				$this->disconnect();
 				return false;
 			}
@@ -223,12 +223,12 @@ class LoginSystem
 		else // Si LDAP desactivado busca Autenticacion LOCAL
 		{				
 				$this->Debug("doLogin(): LDAP desactivado busca Autenticacion LOCAL");
-				$sql = "SELECT * FROM TB_Usuarios WHERE idUsuario = '$usr' and Passwd = '$psw' and active = 1;";
+				$sql = "SELECT * FROM TB_Usuarios WHERE Logname = '$usr' and Passwd = '$psw' and active = 1;";
 				$result = mysql_query($sql, $this->connection);
 				if(mysql_affected_rows($this->connection) == 0)
 				{
 					$this->Debug("doLogin(): Usuario inexistente retorna FALSE");
-					mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso Denegado via Local Login',LastAccess=NOW() WHERE idUsuario='".$this->username."';", $this->connection);
+					mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso Denegado via Local Login',LastAccess=NOW() WHERE Logname='".$this->username."';", $this->connection);
 					$this->disconnect();			
 					return false;
 				}
@@ -236,7 +236,7 @@ class LoginSystem
 				{
 					session_regenerate_id(); // more secure to regenerate a new id.
 					$this->Debug("doLogin(): Usuario OK define las variables de sesion [LoggedIn, userName y LDAP] y retorna FALSE");
-					mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso OK via Local Login',LastAccess=NOW() WHERE idUsuario='".$this->username."';", $this->connection);
+					mysql_query("UPDATE TB_Usuarios SET InfoLastLoggin='Acceso OK via Local Login',LastAccess=NOW() WHERE Logname='".$this->username."';", $this->connection);
 
 					//set session vars up
 					$_SESSION['LoggedIn'] = true;
@@ -481,16 +481,15 @@ class LoginSystem
 		</div>
 	</body>
 	<script type='text/javascript'>
-		jQuery.noConflict();
 		// Se ejecuta cuando el documento esta cargado
-		jQuery(document).ready(function() 
+		$(document).ready(function() 
 		{
 			// Centrar la ventana de Login
-			var marginTop = jQuery('#fullwindow').height()/2-jQuery('#fullwindow').offset().top-jQuery('#loginwindow').height();
-			jQuery('#loginwindow').css('marginTop',marginTop);
-			jQuery("#Username").focus();
-			jQuery("#Username").select();
-			jQuery("#BTNLogin").button({ text: true, icons: { primary: "ui-icon-locked"}  });
+			var marginTop = $('#fullwindow').height()/2-$('#fullwindow').offset().top-$('#loginwindow').height();
+			$('#loginwindow').css('marginTop',marginTop);
+			$("#Username").focus();
+			$("#Username").select();
+			$("#BTNLogin").button({ text: true, icons: { primary: "ui-icon-locked"}  });
 		});	
 	</script>
 </html>
