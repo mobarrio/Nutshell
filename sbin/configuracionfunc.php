@@ -68,13 +68,10 @@ function pref(){
 		<div class="row-fluid">
 			<div class='span12'><h3>Prametrizacion del sistema</h3></div>
 		</div>
-		<div class="row-fluid">
-			<hr class='span6' style='margin-top: 0px;margin-bottom: 0px;'>
-		</div>
 		<? foreach($datos as $row): ?>
 		<? if($row['seccion'] != $seccion): ?>
-			<div class="row-fluid" style='background-color: #E2E2E2;margin-bottom: 5px;<?=(!empty($seccion) ? 'margin-top: 2em;' : '')?>'>
-				<h4><?=$row['seccion']?></h4>
+			<div class="row-fluid" style='border: 1px solid #C4C4C4;background-color: #E2E2E2;margin-bottom: 5px;<?=(!empty($seccion) ? 'margin-top: 2em;' : '')?>'>
+				<h4 style='margin-left: 5px;'><?=$row['seccion']?></h4>
 			</div>
 			<? $seccion = $row['seccion']; ?>
 		<? endif; ?>
