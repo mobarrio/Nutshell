@@ -108,8 +108,9 @@
 			
 			switch( type ) {
 				case 'alert':
-					jQuery("#popup_message").after('<div id="popup_panel" style="margin-top: 35px;"><button id="popup_ok">&nbsp;' + jQuery.alerts.okButton + '&nbsp;</button></div>');
-					jQuery("#popup_ok").button({ text: true, icons: { primary: "ui-icon-check"}  });
+					//jQuery("#popup_message").after('<div id="popup_panel" style="margin-top: 35px;"><button id="popup_ok">&nbsp;' + jQuery.alerts.okButton + '&nbsp;</button></div>');
+					//jQuery("#popup_ok").button({ text: true, icons: { primary: "ui-icon-check"}  });
+					jQuery("#popup_message").after('<div id="popup_panel" style="margin-top: 35px;"><a id="popup_ok" class="btn" href="#"><i class="icon-ok"></i>&nbsp;&nbsp;' + jQuery.alerts.okButton + '</a></div>');					
 					jQuery("#popup_ok").click( function() {
 						jQuery.alerts._hide();
 						callback(true);
@@ -120,9 +121,10 @@
 				break;
 				
 				case 'confirm':
-					jQuery("#popup_message").after('<div id="popup_panel" style="margin-top: 35px;"><button id="popup_ok">&nbsp;' + jQuery.alerts.okButton + '&nbsp;</button><button id="popup_cancel">&nbsp;' + jQuery.alerts.cancelButton + '&nbsp;</button></div>');
-					jQuery("#popup_ok").button({ text: true, icons: { primary: "ui-icon-check"}  });
-					jQuery("#popup_cancel").button({ text: true, icons: { primary: "ui-icon-close"}  });
+					// jQuery("#popup_message").after('<div id="popup_panel" style="margin-top: 35px;"><button id="popup_ok">&nbsp;' + jQuery.alerts.okButton + '&nbsp;</button><button id="popup_cancel">&nbsp;' + jQuery.alerts.cancelButton + '&nbsp;</button></div>');
+					jQuery("#popup_message").after('<div id="popup_panel" style="margin-top: 35px;"><a id="popup_ok" class="btn" href="#"><i class="icon-ok"></i>&nbsp;&nbsp;' + jQuery.alerts.okButton + '</a><a id="popup_cancel" class="btn" href="#"><i class="icon-remove"></i>&nbsp;&nbsp;'+ jQuery.alerts.cancelButton + '</a></div>');
+					//jQuery("#popup_ok").button({ text: true, icons: { primary: "ui-icon-check"}  });
+					//jQuery("#popup_cancel").button({ text: true, icons: { primary: "ui-icon-close"}  });
 					jQuery("#popup_ok").click( function() {
 						jQuery.alerts._hide();
 						if( callback ) callback(true);
@@ -138,9 +140,10 @@
 					});
 				break;
 				case 'prompt':
-					jQuery("#popup_message").append('<br /><input type="text" size="30" id="popup_prompt" />').after('<div id="popup_panel" style="margin-top: 35px;"><button id="popup_ok">&nbsp;' + jQuery.alerts.okButton + '&nbsp;</button><button id="popup_cancel">&nbsp;' + jQuery.alerts.cancelButton + '&nbsp;</button></div>');
-					jQuery("#popup_cancel").button({ text: true, icons: { primary: "ui-icon-close"}  });
-					jQuery("#popup_ok").button({ text: true, icons: { primary: "ui-icon-check"}  });
+					// jQuery("#popup_message").append('<br /><input type="text" size="30" id="popup_prompt" />').after('<div id="popup_panel" style="margin-top: 35px;"><button id="popup_ok">&nbsp;' + jQuery.alerts.okButton + '&nbsp;</button><button id="popup_cancel">&nbsp;' + jQuery.alerts.cancelButton + '&nbsp;</button></div>');
+					// jQuery("#popup_cancel").button({ text: true, icons: { primary: "ui-icon-close"}  });
+					// jQuery("#popup_ok").button({ text: true, icons: { primary: "ui-icon-check"}  });
+					jQuery("#popup_message").append('<br /><input type="text" size="30" id="popup_prompt" />').after('<div id="popup_panel" style="margin-top: 35px;"><a id="popup_ok" class="btn" href="#"><i class="icon-ok"></i>&nbsp;&nbsp;' + jQuery.alerts.okButton + '</a><a id="popup_cancel" class="btn" href="#"><i class="icon-remove"></i>&nbsp;&nbsp;'+ jQuery.alerts.cancelButton + '</a></div>');			
 					jQuery("#popup_prompt").width( jQuery("#popup_message").width() );
 					jQuery("#popup_ok").click( function() {
 						var val = jQuery("#popup_prompt").val();

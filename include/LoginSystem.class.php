@@ -108,11 +108,9 @@ class LoginSystem
 	{                   
 		$db = ADONewConnection('mysql');
 		$db->Connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
-		$sql = "SELECT idMenuTipo as rol FROM TB_Usuarios where Logname = '".$_SESSION['userName']."';";
-		$fields = $db->GetAll($sql);  
+		$fields = $db->GetRow("SELECT AccessLevel FROM TB_Usuarios where Logname = '".$_SESSION['userName']."';");  
 		$db->Close(); # opcional	
-		$ret = $fields[0]['rol'];
-		return($ret);
+		return($fields['AccessLevel']);
 	}
 
 	/**
@@ -145,7 +143,12 @@ class LoginSystem
 		$this->redirect_page = $_SERVER['REQUEST_URI'];
 
 		// Verifica si la WEB esta en modo Mantenimiento
-		if($this->getParam('MAINTENANCEPAGE') && $this->getRoldeUsuario() != 'Administrador' && $_SESSION['LoggedIn'] ) { ob_clean(); header("Location: ".$_SESSION['PATH_URL']."/errors/mantenimiento.html"); }
+		if($this->getParam('MAINTENANCEPAGE') && $this->getRoldeUsuario() > 0 && $_SESSION['LoggedIn'] ) { 
+			$url = "Location: ".$_SESSION['PATH_URL']."/errors/mantenimiento.html";
+			$this->logout();
+			ob_clean(); 
+			header($url); 
+		}
 
 		// Si la cookie de expiracion existe y es distinta a TRUE y la variable de sesion LEGGEDIN esta a TRUE		
 		if( isset($_COOKIE[$this->prefix.'expiration']) && ($_COOKIE['login_expiration'] == "true") && $_SESSION['LoggedIn'] )
@@ -409,6 +412,10 @@ class LoginSystem
 	<head>
 		<meta charset="utf-8" />	
 		<title>Login</title>
+		<!-- link rel="stylesheet"                    href="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap-combined.no-icons.min.css">
+		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome.css">
+		<script type="text/javascript" 			   src="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap.min.js"></script --> 
+
 		<link    rel='stylesheet'      type='text/css' href='styles/libgsis.css'>
 		<link    rel='stylesheet'      type='text/css' href='styles/themes/ui-smoothness/jquery-ui-1.10.2.custom.min.css' />
 		<script type='text/javascript'                  src='js/jquery-1.9.1.min.js'></script>
@@ -461,6 +468,7 @@ class LoginSystem
 						</tr>
 						<tr>
 							<td class='aad-o-service' style='border-right: 0px;text-align:right;' colspan='2'>
+								<!-- a id='BTNLogin' class='btn' href='#'><i class='icon-fixed-width icon-lock'></i> Login</a -->
 								<input id='BTNLogin' name='Submit' type='submit' style='color: #0856F3;font-family: monospace;text-shadow: rgba(111, 179, 252, 0.85) 0 0 3px;' value='&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;' class='dash-button'><br>
 								<!-- button id='BTNLogin'>Login</button -->
 							</td>
@@ -490,6 +498,11 @@ class LoginSystem
 			$("#Username").focus();
 			$("#Username").select();
 			$("#BTNLogin").button({ text: true, icons: { primary: "ui-icon-locked"}  });
+			//$("#BTNLogin").on('click', function(event){
+			//	event.preventDefault();
+			//	$this = $(this);
+			//	$("#LoginFRM").submit();
+			//});
 		});	
 	</script>
 </html>

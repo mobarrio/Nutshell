@@ -38,8 +38,8 @@
 		<script type='text/javascript'             src='js/plugins/timepicker/jquery.ui.timepicker.js'></script>
 		<script type='text/javascript'             src='js/plugins/timepicker/i18n/jquery.ui.timepicker-fr.js'></script>
 		<link   type='text/css' rel='stylesheet'  href='js/plugins/timepicker/jquery.ui.timepicker.css' />
-		<script type='text/javascript'             src='js/plugins/dialogs/jquery.alerts.js'></script>
 		<link   type='text/css' rel='stylesheet'  href='js/plugins/dialogs/jquery.alerts.css' />
+		<script type='text/javascript'             src='js/plugins/dialogs/jquery.alerts.js'></script>
 		<script type='text/javascript'             src="js/plugins/validation/jquery.validate.min.js"></script>
 		<script type='text/javascript'             src="js/plugins/validation/additional-methods.min.js"></script>
 		<script type='text/javascript'             src="js/plugins/validation/localization/messages_es.js"></script>
@@ -48,7 +48,6 @@
 		<script type="text/javascript" 			   src="js/plugins/tinymce/tinymce.min.js"></script> 
 		<script type="text/javascript" 			   src="js/plugins/tinymce/jquery.tinymce.min.js"></script> 
 		<script type="text/javascript" 			   src="js/plugins/mobarrio/timer/jquery.stopwatch.js"></script> 
-		<link  rel="stylesheet" type="text/css"   href="errors/error.css"/>
 
 		<style>
 			@media (min-width: 980px) {
