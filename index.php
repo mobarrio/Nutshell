@@ -24,10 +24,12 @@
 		<link   type='text/css' rel='stylesheet'  href='styles/themes/ui-smoothness/jquery-ui-1.10.2.custom.min.css' />
 		<link   type='text/css' rel='stylesheet'  href='styles/themes/jquery.ui.selectmenu.css' />
 
-		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap-combined.no-icons.min.css">
-		<link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome.css">
-		<!-- link rel="stylesheet"                    href="js/plugins/bootstrapcdn/font-awesome/3.0.2/ccs/font-awesome-ie7.css" -->
-		<script type="text/javascript" 			   src="js/plugins/bootstrapcdn/twitter-bootstrap/2.3.2/bootstrap.min.js"></script> 
+		<link href="js/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="js/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<!--[if IE 7]>
+			<link href="js/plugins/font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+		<![endif]-->		
+		<script type="text/javascript" 			   src="js/plugins/bootstrap/js/bootstrap.min.js"></script> 
 
 		<!-- Dropdown Menu HTML5 -->
 		<link href="js/html5/css/dropdown/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
