@@ -50,7 +50,17 @@
 		<script type="text/javascript" 			   src="js/plugins/tinymce/tinymce.min.js"></script> 
 		<script type="text/javascript" 			   src="js/plugins/tinymce/jquery.tinymce.min.js"></script> 
 		<script type="text/javascript" 			   src="js/plugins/mobarrio/timer/jquery.stopwatch.js"></script> 
+		
+		<link rel="stylesheet" href="banner/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+		<script type="text/javascript" src="banner/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
+		<script>
+
+		$(document).ready(function() {
+			$(".fancybox").fancybox({ width : '1000', height : '1000' }).trigger('click');
+    	});
+
+		</script>
 		<style>
 			@media (min-width: 980px) {
 				body{ padding-top: 60px; }
@@ -74,10 +84,12 @@
 				.loading    { width: 480px; margin: 0 auto 0 auto; float: left; text-align: center; }
 			}
 			.welcome { text-align: left;margin-top: 2%;font-weight: 700;}
-
 		</style>
 	</head>
     <body>
+    	<div style='text-align:center;'>
+   			<a class='fancybox' href="banner/CARETA-COPA-DEL-REY-1000-X-1000-px.gif"><img src="banner/CARETA-COPA-DEL-REY-900-X-90-px.gif" width='990' height='90' alt=""/></a>
+    	</div>
 	    <div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
 	        <div class="container">

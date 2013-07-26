@@ -10,7 +10,7 @@ Para ver una copia de esta licencia, visita http://creativecommons.org/licenses/
 
 Código Safe Creative: #1211060715189
 */
-
+if (session_id() == ''){ session_start(); }
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php");
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "adLDAP.php");               // Conexion al LDAP
 
@@ -110,7 +110,8 @@ class LoginSystem
 		$db->Connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
 		$fields = $db->GetRow("SELECT AccessLevel FROM TB_Usuarios where Logname = '".$_SESSION['userName']."';");  
 		$db->Close(); # opcional	
-		return($fields['AccessLevel']);
+		$ret = isset($fields['AccessLevel']) ? $fields['AccessLevel'] :'';
+ 		return($ret);
 	}
 
 	/**
@@ -134,9 +135,9 @@ class LoginSystem
 			$sql = "SELECT * FROM TB_Usuarios where Logname = '".$_SESSION['userName']."';";
 			$fields = $db->GetRow($sql);  
 			$db->Close(); # opcional	
-			$this->AccessLevel = $fields['AccessLevel'];
+			$this->AccessLevel = isset($fields['AccessLevel']) ? $fields['AccessLevel'] : '-1';
 			$_SESSION['AccessLevel'] = $this->AccessLevel;
-			$_SESSION['Descripcion'] = $fields['Descripcion'];
+			$_SESSION['Descripcion'] = isset($fields['Descripcion']) ? $fields['Descripcion'] : '';
 		}
 
 		// Redirecciona despues del loggin para la pagina que se intentaba acceder.

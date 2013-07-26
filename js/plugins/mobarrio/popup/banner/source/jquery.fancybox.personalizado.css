@@ -1,0 +1,2 @@
+.fancybox-close { top: 0px !important; right: 0px !important; width: 77px !important; height: 20px !important; }
+#fancybox-loading, .fancybox-close, .fancybox-prev span, .fancybox-next span { background-image: url('boton_cerrar.gif')  !important; }

@@ -1,4 +1,6 @@
 <?php
+if (session_id() == ''){ session_start(); }
+
 // Seccion INCLUDES
 require_once(dirname(__FILE__) . "/../include/config.php"); // Configuracion general
 error_reporting(-1);
@@ -241,6 +243,9 @@ function add_update_usuario(){
 
 	//$GLOBALS['connMySQL']->debug = true;
 	$GLOBALS['connMySQL']->Execute("INSERT INTO tb_usuarios($field Logname, Descripcion, Passwd, Mail, Movil, active, AccessLevel) VALUES ($value '$Logname', '$Descripcion', '$Passwd', '$Mail', '$Movil', '$active', '$AccessLevel') ON DUPLICATE KEY UPDATE Logname='$Logname', Descripcion='$Descripcion', Passwd='$Passwd', Mail='$Mail', Movil='$Movil', active='$active', AccessLevel='$AccessLevel';");
+	$_SESSION['userName']    = $Logname;
+	$_SESSION['Descripcion'] = $Descripcion;
+	$_SESSION['AccessLevel'] = $AccessLevel;
 	admusr();
 }
 
